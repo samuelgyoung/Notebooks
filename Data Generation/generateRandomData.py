@@ -6,10 +6,10 @@ def generateRandomData(df, numberOfRowsToGenerate):
     d = {}
     #df_random = pd.DataFrame()
     #GET ALL THE VALUES IN THE DATAFRAME, SAVE THEM TO A DICTIONARY. e.g., "Housing" (column name) -> [on campus, off campus] (possible values)
-    for column in df: 
-        # Select column contents by column 
-        # name using [] operator 
-        columnSeriesObj = df[column] 
+    for column in df:
+        # Select column contents by column
+        # name using [] operator
+        columnSeriesObj = df[column]
         d[column] = columnSeriesObj.unique()
     #CREATE THE DATAFRAME
     df_random = pd.DataFrame(columns = d.keys())
@@ -21,10 +21,17 @@ def generateRandomData(df, numberOfRowsToGenerate):
             minAddress = 0
             address = random.randint(minAddress,maxAddress)
             randomVal = d.get(x)[address]
-            NewRow.append(randomVal)    
+            NewRow.append(randomVal)
         #print(NewRow)
         #Add the row
         df_random.loc[-1] = NewRow
         # shifting index
-        df_random.index = df_random.index + 1 
+        df_random.index = df_random.index + 1
     return df_random
+
+df = generateRandomData(df_data_1,10)
+
+from project_lib import Project
+project = Project.access
+
+project.save_data("file_name.csv", df.to_csv(index=False), overwrite = True)
